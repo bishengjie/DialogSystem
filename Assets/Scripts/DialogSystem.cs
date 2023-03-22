@@ -19,8 +19,8 @@ public class DialogSystem : MonoBehaviour
     [Header("头像")] 
     public Sprite face01, face02;
     
-    private bool textFinished;
-
+    private bool textFinished; // 是否完成打字
+    private bool cancelTyping; //取消打字
     private List<string> textList = new List<string>();
 
     void Awake()
@@ -45,11 +45,20 @@ public class DialogSystem : MonoBehaviour
             return;
         }
 
-        if (Input.GetKeyDown(KeyCode.R) && textFinished)
+        // if (Input.GetKeyDown(KeyCode.R) && textFinished)
+        // {
+        //     StartCoroutine(SetTextUI());
+        // }
+        if (Input.GetKeyDown(KeyCode.R))
         {
-            // textLabel.text = textList[index];
-            // index++;
-            StartCoroutine(SetTextUI());
+            if (textFinished&&!cancelTyping)
+            {
+                StartCoroutine(SetTextUI());
+            }
+            else if (!textFinished)
+            {
+                cancelTyping = true;
+            }
         }
     }
 
@@ -83,12 +92,22 @@ public class DialogSystem : MonoBehaviour
                 break;
         }
         
-        for (int i = 0; i < textList[index].Length; i++)
+        // for (int i = 0; i < textList[index].Length; i++)
+        // {
+        //     textLabel.text += textList[index][i];
+        //     yield return new WaitForSeconds(textSpeed);
+        // }
+
+        int letter = 0;
+        while (!cancelTyping&&letter<textList[index].Length-1)
         {
-            textLabel.text += textList[index][i];
+            textLabel.text += textList[index][letter];
+            letter++;
             yield return new WaitForSeconds(textSpeed);
         }
 
+        textLabel.text = textList[index];
+        cancelTyping = false;
         textFinished = true;
         index++;
     }
