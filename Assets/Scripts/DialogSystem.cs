@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class DialogSystem : MonoBehaviour
 {
     [Header("UI组件")]
-    public TMP_Text textLabel;
+    public Text textLabel;
     public Image factImage;
 
     [Header("文本文件")] public TextAsset textFile;
@@ -30,8 +30,6 @@ public class DialogSystem : MonoBehaviour
 
     private void OnEnable()
     {
-        // textLabel.text = textList[index];
-        // index++;
         textFinished = true;
         StartCoroutine(SetTextUI());
     }
@@ -45,10 +43,6 @@ public class DialogSystem : MonoBehaviour
             return;
         }
 
-        // if (Input.GetKeyDown(KeyCode.R) && textFinished)
-        // {
-        //     StartCoroutine(SetTextUI());
-        // }
         if (Input.GetKeyDown(KeyCode.R))
         {
             if (textFinished&&!cancelTyping)
@@ -91,12 +85,7 @@ public class DialogSystem : MonoBehaviour
                 index++;
                 break;
         }
-        
-        // for (int i = 0; i < textList[index].Length; i++)
-        // {
-        //     textLabel.text += textList[index][i];
-        //     yield return new WaitForSeconds(textSpeed);
-        // }
+      
 
         int letter = 0;
         while (!cancelTyping&&letter<textList[index].Length-1)
